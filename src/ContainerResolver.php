@@ -38,6 +38,23 @@ class ContainerResolver
             : $arguments;
 
         $object = $refl->newInstanceArgs($instanceArgs);
+
+
+        return $this->autowireObject($object);
+    }
+
+    /**
+     * @param $object
+     * @return mixed
+     * @throws \ReflectionException
+     */
+    public function autowireObject($object)
+    {
+        if(!is_object($object)){
+            throw new \InvalidArgumentException('Argument is not an object');
+        }
+
+        $refl = new \ReflectionClass($object);
         foreach($refl->getMethods(\ReflectionMethod::IS_PUBLIC) as $method){
             if($method->isConstructor()
                 || $method->isDestructor()

@@ -66,4 +66,12 @@ class ContainerResolverTest extends TestCase
         $this->expectException(\ReflectionException::class);
         $resolver->createInstance('Nobody\Uses\That\Namespace\With\SomeClassThatDoesNotExist');
     }
+
+    public function testAutowireObjectFail()
+    {
+        $container = new Container();
+        $resolver = new ContainerResolver($container);
+        $this->expectException(\InvalidArgumentException::class);
+        $resolver->autowireObject('ThisIsNotAnObject');
+    }
 }
