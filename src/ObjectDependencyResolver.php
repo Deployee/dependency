@@ -5,7 +5,7 @@ namespace Deployee\Components\Dependency;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
-class ContainerResolver
+class ObjectDependencyResolver
 {
     /**
      * @var ContainerBuilder

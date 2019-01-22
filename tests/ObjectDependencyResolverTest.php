@@ -11,7 +11,7 @@ use Deployee\Components\Dependency\Test\SuperTestDependencyClass;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
-class ContainerResolverTest extends TestCase
+class ObjectDependencyResolverTest extends TestCase
 {
     public function testCreateInstance()
     {
@@ -19,7 +19,7 @@ class ContainerResolverTest extends TestCase
         $container->register(SuperTestDependencyClass::class, SuperTestDependencyClass::class);
         $container->register(AwesomeTestDependencyClass::class, AwesomeTestDependencyClass::class);
 
-        $resolver = new ContainerResolver($container);
+        $resolver = new ObjectDependencyResolver($container);
 
         /* @var GreatTestDependantClass $object */
         $object = $resolver->createInstance(GreatTestDependantClass::class);
@@ -35,7 +35,7 @@ class ContainerResolverTest extends TestCase
 
         $container = new ContainerBuilder();
         $container->register(SuperTestDependencyClass::class, SuperTestDependencyClass::class);
-        $resolver = new ContainerResolver($container);
+        $resolver = new ObjectDependencyResolver($container);
 
 
         /* @var GreatTestDependantClass $object */
@@ -48,7 +48,7 @@ class ContainerResolverTest extends TestCase
     public function testCreateInstanceWithNoConstructorAndContainerSetter()
     {
         $container = new ContainerBuilder();
-        $resolver = new ContainerResolver($container);
+        $resolver = new ObjectDependencyResolver($container);
 
         /* @var MegaTestDependantClass $object */
         $object = $resolver->createInstance(MegaTestDependantClass::class);
@@ -59,7 +59,7 @@ class ContainerResolverTest extends TestCase
 
     public function testCreateInstanceWithNonExistantClass()
     {
-        $resolver = new ContainerResolver(new ContainerBuilder());
+        $resolver = new ObjectDependencyResolver(new ContainerBuilder());
         $this->expectException(\ReflectionException::class);
         $resolver->createInstance('Nobody\Uses\That\Namespace\With\SomeClassThatDoesNotExist');
     }
@@ -67,7 +67,7 @@ class ContainerResolverTest extends TestCase
     public function testAutowireObjectFail()
     {
         $container = new ContainerBuilder();
-        $resolver = new ContainerResolver($container);
+        $resolver = new ObjectDependencyResolver($container);
         $this->expectException(\InvalidArgumentException::class);
         $resolver->autowireObject('ThisIsNotAnObject');
     }
