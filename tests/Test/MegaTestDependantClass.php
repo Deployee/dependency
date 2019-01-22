@@ -3,8 +3,7 @@
 
 namespace Deployee\Components\Dependency\Test;
 
-
-use Deployee\Components\Container\ContainerInterface;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class MegaTestDependantClass
 {
@@ -16,7 +15,7 @@ class MegaTestDependantClass
     private $awesome;
 
     /**
-     * @var ContainerInterface
+     * @var ContainerBuilder
      */
     private $container;
 
@@ -30,7 +29,7 @@ class MegaTestDependantClass
         $this->awesome = $weiredObject;
     }
 
-    public function setContainer(ContainerInterface $container)
+    public function setContainer(ContainerBuilder $container)
     {
         $this->container = $container;
     }

@@ -1,6 +1,6 @@
 {
     "name": "deployee/dependency",
-    "description": "Dependency aiutowiring component for deployee",
+    "description": "Dependency autowiring component for deployee",
     "type": "library",
     "authors": [
         {
@@ -10,7 +10,7 @@
     ],
     "require": {
         "php": ">=7.0",
-        "deployee/container": "^1.0"
+        "symfony/dependency-injection": "^3.4"
     },
     "require-dev": {
         "phpunit/phpunit": "^6.5"

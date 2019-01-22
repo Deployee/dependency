@@ -3,20 +3,19 @@
 
 namespace Deployee\Components\Dependency;
 
-use Deployee\Components\Container\ContainerException;
-use Deployee\Components\Container\ContainerInterface;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class ContainerResolver
 {
     /**
-     * @var ContainerInterface
+     * @var ContainerBuilder
      */
     private $container;
 
     /**
-     * @param ContainerInterface $container
+     * @param ContainerBuilder $container
      */
-    public function __construct(ContainerInterface $container)
+    public function __construct(ContainerBuilder $container)
     {
         $this->container = $container;
     }
@@ -44,7 +43,7 @@ class ContainerResolver
     }
 
     /**
-     * @param $object
+     * @param object $object
      * @return mixed
      * @throws \ReflectionException
      */
@@ -77,17 +76,20 @@ class ContainerResolver
     /**
      * @param \ReflectionMethod $method
      * @return array
+     * @throws \Exception
      */
     private function getMethodInstanceArgs(\ReflectionMethod $method): array
     {
         $parameterList = [];
         foreach($method->getParameters() as $parameter){
             $type = (string)$parameter->getType();
-            if(($value = $this->getContainerValue($type)) === null || (!class_exists($type) && !interface_exists($type))){
+            if($type !== ContainerBuilder::class && $this->container->has($type) === false){
                 return [];
             }
 
-            $parameterList[] = $value;
+            $parameterList[] = $type === ContainerBuilder::class
+                ? $this->container
+                : $this->container->get($type);
         }
 
         return $parameterList;
