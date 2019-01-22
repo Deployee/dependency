@@ -25,6 +25,7 @@ class ObjectDependencyResolver
      * @param array $arguments
      * @return object
      * @throws \ReflectionException
+     * @throws \Exception
      */
     public function createInstance(string $class, array $arguments = [])
     {
@@ -46,6 +47,7 @@ class ObjectDependencyResolver
      * @param object $object
      * @return mixed
      * @throws \ReflectionException
+     * @throws \Exception
      */
     public function autowireObject($object)
     {
@@ -93,19 +95,5 @@ class ObjectDependencyResolver
         }
 
         return $parameterList;
-    }
-
-    /**
-     * @param string $id
-     * @return mixed
-     */
-    private function getContainerValue(string $id)
-    {
-        try{
-            return $this->container->get($id);
-        }
-        catch(ContainerException $e){
-            return $id === ContainerInterface::class ? $this->container : null;
-        }
     }
 }
