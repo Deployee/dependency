@@ -71,4 +71,12 @@ class ObjectDependencyResolverTest extends TestCase
         $this->expectException(\InvalidArgumentException::class);
         $resolver->autowireObject('ThisIsNotAnObject');
     }
+
+    public function testInvokeMethod()
+    {
+        $resolver = new ObjectDependencyResolver(new ContainerBuilder());
+        $superTestDep = new SuperTestDependencyClass();
+
+        $this->assertSame(ContainerBuilder::class, $resolver->invokeMethod($superTestDep, 'returnClassName'));
+    }
 }

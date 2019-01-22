@@ -43,7 +43,7 @@ class MegaTestDependantClass
     }
 
     /**
-     * @return ContainerInterface
+     * @return ContainerBuilder
      */
     public function getContainer()
     {
