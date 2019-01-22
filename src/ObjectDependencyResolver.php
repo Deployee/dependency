@@ -76,6 +76,18 @@ class ObjectDependencyResolver
     }
 
     /**
+     * @param object $object
+     * @param string $method
+     * @return mixed
+     * @throws \ReflectionException
+     */
+    public function invokeMethod($object, string $method)
+    {
+        $refl = new \ReflectionMethod(get_class($object), $method);
+        return call_user_func_array([$object, $method], $this->getMethodInstanceArgs($refl));
+    }
+
+    /**
      * @param \ReflectionMethod $method
      * @return array
      * @throws \Exception
